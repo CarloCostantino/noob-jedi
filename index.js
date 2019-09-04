@@ -72,5 +72,59 @@ const data = [{
 const correct = `Nice job kid, don't get cocky!`
 const incorrect = `Wrong, it was actually "${rightAnswer}"`
 
+// Question should be rendered to the page
+
+// You should be able to select an answer and submit it
+
+// You should get feedback on your answer
+
+// You should be able to move to the next question
+
+// You should be able to reset the quiz
 
 
+// When you click on the "Prove it..." button 
+// it should take you to the quiz
+
+// When you select an option (a, b, c, or d) and submit
+// if correct, it should take you to the next question
+// and update the .quiz-info and .score-info
+
+// if incorrect, it should desplay Luke gif 
+// and tell you the correct answer
+
+// then after pressing "next" button
+// it should take you do the next question
+// and update the .quiz-info and .score-info
+
+
+function renderQuestion() {
+  // this will render the current question to the DOM
+  console.log(`renderQuestion ran`);
+}
+
+function handleSubmit() {
+  // this will check if submit was clicked and check if it is correct
+  console.log(`handleSubmit ran`);
+}
+
+function renderFeedback() {
+  // this should tell the user if they got the answer right and update .quiz-info
+  console.log(`renderFeedback ran`);
+}
+
+function handleResetButton() {
+  // this should restart quiz to question 1 and reset .quiz-info
+  console.log(`resetQuiz ran`);
+}
+
+// this will hold all the other functions and be called at the end of the js to ready the app
+function handleQuizApp() {
+  renderQuestion();
+  handleSubmit();
+  renderFeedback();
+  handleResetButtonClick();
+}
+
+// when the page loads, this will call "handleQuizApp"
+$(handleQuizApp);
