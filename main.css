@@ -1,10 +1,34 @@
 * {
   box-sizing: border-box;
+}
+
+body {
   font-family: "Rubik", sans-serif;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-container {
-  border: 5px black;
+  max-width: 1000px;
+  min-width: 340px;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid black;
   background: lightgrey;
 }
+
+.quiz-info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.form-container {
+  align-content: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+
