@@ -1,4 +1,4 @@
-const data = [{
+const DATA = [{
     q: 'What is the name of Luke Skywalkers father?',
     a: 'Padmé Amidala',
     b: 'Shmi Skywalker',
@@ -70,7 +70,7 @@ const data = [{
   }]
   
 const correct = `Nice job kid, don't get cocky!`
-const incorrect = `Wrong, it was actually "${rightAnswer}"`
+const incorrect = `Wrong, it was actually "correct answer here"`
 
 // Question should be rendered to the page
 
@@ -113,9 +113,9 @@ function renderFeedback() {
   console.log(`renderFeedback ran`);
 }
 
-function handleResetButton() {
+function handleResetButtonClick() {
   // this should restart quiz to question 1 and reset .quiz-info
-  console.log(`resetQuiz ran`);
+  console.log(`handleResetButtonClick ran`);
 }
 
 // this will hold all the other functions and be called at the end of the js to ready the app
@@ -124,6 +124,7 @@ function handleQuizApp() {
   handleSubmit();
   renderFeedback();
   handleResetButtonClick();
+
 }
 
 // when the page loads, this will call "handleQuizApp"
