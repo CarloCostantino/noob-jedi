@@ -1,10 +1,10 @@
 const DATA = [{
-    q: 'What is the name of Luke Skywalkers mother?',
-    a: 'Padmé Amidala',
-    b: 'Shmi Skywalker',
-    c: 'Aayla Secura',
-    d: 'Mon Mothma',
-    key: 'Padmé Amidala'
+    question: 'What is the name of Luke Skywalkers mother?',
+    options: ['Padmé Amidala',
+    'Shmi Skywalker',
+    'Aayla Secura',
+    'Mon Mothma'],
+    answer: 'Padmé Amidala'
   },
   {
     q: 'What is the name of the ship in the photo above?',
@@ -109,42 +109,36 @@ const score = 0
 // and update the .quiz-info and .score-info
 
 
-function renderQuestion() {
+function handleNewQuestion() {
   // this will render the current question to the DOM
-  $('button').click(function() {
+  $('.js-render-question').click(function() {
     removeOldQuestion();
-    $('.app-container').append(createNewQuestion)
+    $('.js-app').append(renderNewQuestion(DATA[questionNumber]))
     console.log(`renderQuestion ran`);
   })
   
 }
   
 function removeOldQuestion() {
-  $('.form-container').remove()
+  $('.js-form').remove()
   console.log('removeOldQuestion ran')
 }
 
-function createNewQuestion() {
-  const question = DATA[questionNumber].q
-  const answerA = DATA[questionNumber].a
-  const answerB = DATA[questionNumber].b
-  const answerC = DATA[questionNumber].c
-  const answerD = DATA[questionNumber].d
-  const newQuestion = 
-  `<form class="form-container">
-    <legend>${question}</legend>
-      <div class="input-container">
-        <input class="answer-a" type="radio" id="answer-a" name="answer"></input>
-          <label for="answer-a">${answerA}</label>
-        <input class="answer-b" type="radio" id="answer-b" name="answer"></input>
-          <label for="answer-b">${answerB}</label>
-        <input class="answer-c" type="radio" id="answer-c" name="answer"></input>
-          <label for="answer-c">${answerC}</label>
-        <input class="answer-d" type="radio" id="answer-d" name="answer"></input>
-          <label for="answer-d">${answerD}</label>
-      </div>
-    <input type='submit' role="button" value='Check Answer'></input>
-  </form>`
+function renderNewQuestion(question) {
+  const answers = question.options.map((option, index) => {
+    return `<input type="radio" id="answer-${index}" name="answer">
+    <label for="answer-${index}">${option}</label>`
+  })
+
+  console.log(answers);
+
+  // const newQuestion = 
+  // `<form class="form-container js-form">
+  //   <legend>${question}</legend>
+  //   <div class="input-container">
+  //   </div>
+  //   <button type='submit'>Check Answer</button>
+  // </form>`
 
   console.log('createNewQuestion ran')
 
@@ -153,27 +147,50 @@ function createNewQuestion() {
 
 function handleSubmit() {
   // this will check if submit was clicked and check if it is correct
-  console.log(`handleSubmit ran`);
+  $('body').on('submit', '.js-form', event => {
+    event.preventDefault();
+    function answerSelected() {
+      if ($('input:checked').val() !== "on") {
+        alert("Please select an answer")
+        return false;
+      } else {return true;}
+    }
+    
+    const answer = $('input:checked').val();
+    console.log(`handleSubmit ran`);
+    console.log(answer);
+  });
+  console.log(`handleSubmit ready`);
+
+  
+}
+
+function answerSelected() {
+  if ($('input:checked').val() !== "on") {
+    alert("Please select an answer");
+    return false;
+  } else {return true;}
 }
 
 function renderFeedback() {
   // this should tell the user if they got the answer right and update .quiz-info
-  console.log(`renderFeedback ran`);
+
+  console.log(`renderFeedback ready`);
 }
 
-function handleResetButtonClick() {
+
+function handleReset() {
   // this should restart quiz to question 1 and reset .quiz-info
-  console.log(`handleResetButtonClick ran`);
+  console.log(`handleResetButtonClick ready`);
 }
 
 // this will hold all the other functions and be called at the end of the js to ready the app
-function handleQuizApp() {
-  renderQuestion();
+function startQuizApp() {
+  handleNewQuestion();
   handleSubmit();
-  renderFeedback();
-  handleResetButtonClick();
+  handleReset();
 
 }
 
 // when the page loads, this will call "handleQuizApp"
-$(handleQuizApp);
+$(startQuizApp);
