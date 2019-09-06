@@ -7,76 +7,76 @@ const DATA = [{
     answer: 'Padmé Amidala'
   },
   {
-    q: 'What is the name of the ship in the photo above?',
-    a: 'Slave 1',
-    b: 'Rebel Blockade Runner', 
-    c: 'Naboo N-1 Starfighter', 
-    d: 'R60 T-wing interceptor',
-    key: 'Slave 1'
+    question: 'What is the name of the ship in the photo above?',
+    options: ['Slave 1',
+    'Rebel Blockade Runner', 
+    'Naboo N-1 Starfighter', 
+    'R60 T-wing interceptor'],
+    answer: 'Slave 1'
   },
   {
-    q: 'How did Han, Luke, Chewy and Leia escape the trash compacter on the Death Star?',
-    a: 'Chewy took a metal pipe and pried open the doors',
-    b: 'Luke found an hatch under the pile of trash',
-    c: 'C-3PO came to the door and opened it from the outside',
-    d: 'R2D2 accessed the trash compacter and shut it down remotely',
-    key: 'R2D2 accessed the trash compacter and shut it down remotely'
+    question: 'How did Han, Luke, Chewy and Leia escape the trash compacter on the Death Star?',
+    options: ['Chewy took a metal pipe and pried open the doors',
+    'Luke found an hatch under the pile of trash',
+    'C-3PO came to the door and opened it from the outside',
+    'R2D2 accessed the trash compacter and shut it down remotely'],
+    answer: 'R2D2 accessed the trash compacter and shut it down remotely'
   },
   {
-    q: 'What is the name of the planet that Luke met Yoda?',
-    a: 'Coruscant',
-    b: 'Hoth',
-    c: 'Dagobah',
-    d: 'Naboo',
-    key: 'Dagobah'
+    question: 'What is the name of the planet that Luke met Yoda?',
+    options: ['Coruscant',
+    'Hoth',
+    'Dagobah',
+    'Naboo'],
+    answer: 'Dagobah'
   },
   {
-    q: 'What did Darth Vader say to Luke after being accused of killing his father?',
-    a: 'No Luke, I am your father',
-    b: "Who's your daddy? I'm your daddy",
-    c: 'No, I am your father',
-    d: 'I am your father',
-    key: 'No, I am your father'
+    question: 'What did Darth Vader say to Luke after being accused of killing his father?',
+    options: ['No Luke, I am your father',
+    "Who's your daddy? I'm your daddy",
+    'No, I am your father',
+    'I am your father'],
+    answer: 'No, I am your father'
   },
   {
-    q: 'What color is Lukes light saber',
-    a: 'Green',
-    b: 'Purple',
-    c: 'White',
-    d: 'Blue',
-    key: 'Blue'
+    question: 'What color is Lukes light saber',
+    options: ['Green',
+    'Purple',
+    'White',
+    'Blue'],
+    answer: 'Blue'
   },
   {
-    q: 'What is the home planet of the Wookies?',
-    a: 'Endor',
-    b: 'Alderaan',
-    c: 'Kashyyyk',
-    d: 'Tatooine',
-    key: 'Kashyyyk'
+    question: 'What is the home planet of the Wookies?',
+    options: ['Endor',
+    'Alderaan',
+    'Kashyyyk',
+    'Tatooine'],
+    answer: 'Kashyyyk'
   },
   {
-    q: 'What did Luke see in the cave on Dagobah?',
-    a: 'All of his friends gathered around a table eating grilled Tauntaun',
-    b: 'Han Solo playing a flute with a flowers in his hair',
-    c: "Himself, under Darth Vader's mask",
-    d: 'A wise old Jedi Master named Yoda',
-    key: "Himself, under Darth Vader's mask"
+    question: 'What did Luke see in the cave on Dagobah?',
+    options: ['All of his friends gathered around a table eating grilled Tauntaun',
+    'Han Solo playing a flute with a flowers in his hair',
+    "Himself, under Darth Vader's mask",
+    'A wise old Jedi Master named Yoda'],
+    answer: "Himself, under Darth Vader's mask"
   },
   {
-    q: 'What did Luke need to pick up at Tosche Station on Tatooine?',
-    a: 'Some milk for breakfast',
-    b: 'A part for C-3PO',
-    c: 'Power converters',
-    d: 'His friend Bob',
-    key: 'Power converters'
+    question: 'What did Luke need to pick up at Tosche Station on Tatooine?',
+    options: ['Some milk for breakfast',
+    'A part for C-3PO',
+    'Power converters',
+    'His friend Bob'],
+    answer: 'Power converters'
   },
   {
-    q: 'Who knew it was a trap?',
-    a: 'Han Solo',
-    b: 'Jabba the Hutt',
-    c: 'Obi-Wan Kenobi',
-    d: 'Admiral Ackbar',
-    key: 'Admiral Ackbar'
+    question: 'Who knew it was a trap?',
+    options: ['Han Solo',
+    'Jabba the Hutt',
+    'Obi-Wan Kenobi',
+    'Admiral Ackbar'],
+    answer: 'Admiral Ackbar'
   }]
   
 const correct = `Nice job kid, don't get cocky!`
@@ -124,45 +124,37 @@ function removeOldQuestion() {
   console.log('removeOldQuestion ran')
 }
 
-function renderNewQuestion(question) {
-  const answers = question.options.map((option, index) => {
-    return `<input type="radio" id="answer-${index}" name="answer">
+function renderNewQuestion(questionObj) {
+  const question = renderQuestionHTML(questionObj);
+  const answers = renderOptionsHTML(questionObj);
+  console.log('renderNewQuestion ran');
+  return `<form class="form-container js-form">${question}
+    <div class="input-container">${answers}</div>
+    <button type="submit">Check Answer</button></form>`
+}
+
+function renderQuestionHTML(questionObj) {
+  return `<legend>${questionObj.question}</legend>`
+}
+
+function renderOptionsHTML(questionObj) {
+  return questionObj.options.map((option, index) => 
+    `<input type="radio" id="answer-${index}" name="answer">
     <label for="answer-${index}">${option}</label>`
-  })
-
-  console.log(answers);
-
-  // const newQuestion = 
-  // `<form class="form-container js-form">
-  //   <legend>${question}</legend>
-  //   <div class="input-container">
-  //   </div>
-  //   <button type='submit'>Check Answer</button>
-  // </form>`
-
-  console.log('createNewQuestion ran')
-
-  return newQuestion
+  ).join('')
 }
 
 function handleSubmit() {
   // this will check if submit was clicked and check if it is correct
   $('body').on('submit', '.js-form', event => {
     event.preventDefault();
-    function answerSelected() {
-      if ($('input:checked').val() !== "on") {
-        alert("Please select an answer")
-        return false;
-      } else {return true;}
-    }
-    
-    const answer = $('input:checked').val();
-    console.log(`handleSubmit ran`);
-    console.log(answer);
+    if ($('input:checked').val() !== "on") {
+      alert("Please select an answer")
+      return false;
+    } else {return true;} 
   });
   console.log(`handleSubmit ready`);
 
-  
 }
 
 function answerSelected() {
