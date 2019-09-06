@@ -1,3 +1,5 @@
+"use strict";
+
 const DATA = [{
     question: 'What is the name of Luke Skywalkers mother?',
     options: ['Padmé Amidala',
@@ -139,7 +141,7 @@ function renderQuestionHTML(questionObj) {
 
 function renderOptionsHTML(questionObj) {
   return questionObj.options.map((option, index) => 
-    `<input type="radio" id="answer-${index}" name="answer">
+    `<input type="radio" id="answer-${index}" value="${option}" name="answer">
     <label for="answer-${index}">${option}</label>`
   ).join('')
 }
@@ -148,26 +150,57 @@ function handleSubmit() {
   // this will check if submit was clicked and check if it is correct
   $('body').on('submit', '.js-form', event => {
     event.preventDefault();
-    if ($('input:checked').val() !== "on") {
+    const chosenAnswer = $('input:checked').val()
+    const correctAnswer = DATA[questionNumber].answer
+    let answerCheck = ''
+    if ($('input:checked').val() === undefined ) {
       alert("Please select an answer")
-      return false;
-    } else {return true;} 
+    } else if (chosenAnswer === correctAnswer) {
+        answerCheck = true
+    } else if (chosenAnswer !== correctAnswer) {
+        answerCheck = false
+    }
+
+    answerCheck === true ? renderCorrectAnswer() : renderWrongAnswer() ;
+
+
+
+    
   });
   console.log(`handleSubmit ready`);
 
 }
 
-function answerSelected() {
-  if ($('input:checked').val() !== "on") {
-    alert("Please select an answer");
-    return false;
-  } else {return true;}
+function renderCorrectAnswer() {
+  console.log("answer is correct");
 }
+
+function renderWrongAnswer() {
+  console.log("answer is wrong");
+}
+
+// function answerSelected() {
+//   $('body').on('submit', '.js-form', event => {
+//     event.preventDefault();
+//     if ($('input:checked').val() !== "on") {
+//       alert("Please select an answer");
+//       return false;
+//     } else {return true;}
+//   }
+// }
 
 function renderFeedback() {
   // this should tell the user if they got the answer right and update .quiz-info
+  // if an answer has been selected, check if the answer is correct
+  if (answerSelected = true) {
+    checkAnswer()
+  }
 
   console.log(`renderFeedback ready`);
+}
+
+function checkAnswer() {
+  let selected = $('input:checked')
 }
 
 
