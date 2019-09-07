@@ -9,7 +9,7 @@ const DATA = [{
     answer: 'Padmé Amidala'
   },
   {
-    question: 'What is the name of the ship in the photo above?',
+    question: `What is the name of Bubba Fett's ship?`,
     options: ['Slave 1',
     'Rebel Blockade Runner', 
     'Naboo N-1 Starfighter', 
@@ -83,36 +83,12 @@ const DATA = [{
   
 let questionNumber = 0
 let score = 0
-// Question should be rendered to the page
-
-// You should be able to select an answer and submit it
-
-// You should get feedback on your answer
-
-// You should be able to move to the next question
-
-// You should be able to reset the quiz
-
-
-// When you click on the "Prove it..." button 
-// it should take you to the quiz
-
-// When you select an option (a, b, c, or d) and submit
-// if correct, it should take you to the next question
-// and update the .quiz-info and .score-info
-
-// if incorrect, it should desplay Luke gif 
-// and tell you the correct answer
-
-// then after pressing "next" button
-// it should take you do the next question
-// and update the .quiz-info and .score-info
-
 
 function handleNewQuestion() {
   // this will render the current question to the DOM
   $('.js-app').on('click', '.js-render-question', function() {
     $('div.js-form').replaceWith(renderNewQuestion(DATA[questionNumber]))
+    renderQuizInfo(questionNumber, DATA.length, score);
   }) 
 }
 
@@ -120,9 +96,9 @@ function handleNewQuestion() {
 function renderNewQuestion(questionObj) {
   const question = renderQuestionHTML(questionObj);
   const answers = renderOptionsHTML(questionObj);
-  return `<form class="form-container js-form">${question}
+  return `<div class="form-container js-form"><form>${question}
     <div class="input-container js-input">${answers}</div>
-    <button type="submit">Check Answer</button></form>`
+    <button type="submit">Check Answer</button></form></div>`
 }
 
 // this creates the HTML for the form question
@@ -155,7 +131,7 @@ function handleSubmit() {
     }
 
     if (answerCheck === false) {
-      $('.js-input').append(wrongAnswerFeedback(chosenAnswer, correctAnswer));
+      $('.js-input').replaceWith(wrongAnswerFeedback(chosenAnswer, correctAnswer));
       renderNextQuestionButton();
       questionNumber += 1
     } else if (answerCheck === true) {
@@ -175,13 +151,24 @@ function renderNextQuestionButton() {
 // this creates feedback for wrong answer
 function wrongAnswerFeedback(chosen, correct) {
   return `<img src="photos/luke_skywalker_screaming_no.gif">
-  <p>You said the answer was ${chosen} when it was actually
-  ${correct}</p>`;
+  <p>You said the answer was "${chosen}" when it was actually
+  "${correct}"</p>`;
 }
 
 // this stores feedback for right answer
 function rightAnswerFeedback() {
   return `Nice job kid, don't get cocky!`
+}
+
+// this will create our score and question number
+function renderQuizInfo(question, amount, score) {
+  $('.quiz-info').replaceWith(`<div class="quiz-info"><p class="question-number">Question: ${question + 1} of ${amount}</p>
+  <p class="score">Score: ${score}</p></div>`);
+}
+
+function quizResults() {
+  // this will take you to a page that shows your score and a photo
+  // also gives you a button to re-take the quiz
 }
 
 function handleReset() {
