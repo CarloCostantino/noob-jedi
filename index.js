@@ -81,10 +81,8 @@ const DATA = [{
     answer: 'Admiral Ackbar'
   }]
   
-const correct = `Nice job kid, don't get cocky!`
-const incorrect = `Wrong, it was actually "correct answer here"`
-const questionNumber = 0
-const score = 0
+let questionNumber = 0
+let score = 0
 // Question should be rendered to the page
 
 // You should be able to select an answer and submit it
@@ -113,32 +111,26 @@ const score = 0
 
 function handleNewQuestion() {
   // this will render the current question to the DOM
-  $('.js-render-question').click(function() {
-    removeOldQuestion();
-    $('.js-app').append(renderNewQuestion(DATA[questionNumber]))
-    console.log(`renderQuestion ran`);
-  })
-  
-}
-  
-function removeOldQuestion() {
-  $('.js-form').remove()
-  console.log('removeOldQuestion ran')
+  $('.js-app').on('click', '.js-render-question', function() {
+    $('div.js-form').replaceWith(renderNewQuestion(DATA[questionNumber]))
+  }) 
 }
 
+// this joins containers, question, answers, and submit button
 function renderNewQuestion(questionObj) {
   const question = renderQuestionHTML(questionObj);
   const answers = renderOptionsHTML(questionObj);
-  console.log('renderNewQuestion ran');
   return `<form class="form-container js-form">${question}
-    <div class="input-container">${answers}</div>
+    <div class="input-container js-input">${answers}</div>
     <button type="submit">Check Answer</button></form>`
 }
 
+// this creates the HTML for the form question
 function renderQuestionHTML(questionObj) {
   return `<legend>${questionObj.question}</legend>`
 }
 
+// this creates the HTML for the form options
 function renderOptionsHTML(questionObj) {
   return questionObj.options.map((option, index) => 
     `<input type="radio" id="answer-${index}" value="${option}" name="answer">
@@ -146,13 +138,14 @@ function renderOptionsHTML(questionObj) {
   ).join('')
 }
 
+// this validates that an answer was selected and checks correctness then gives feedback
 function handleSubmit() {
-  // this will check if submit was clicked and check if it is correct
   $('body').on('submit', '.js-form', event => {
     event.preventDefault();
     const chosenAnswer = $('input:checked').val()
     const correctAnswer = DATA[questionNumber].answer
     let answerCheck = ''
+    
     if ($('input:checked').val() === undefined ) {
       alert("Please select an answer")
     } else if (chosenAnswer === correctAnswer) {
@@ -161,48 +154,35 @@ function handleSubmit() {
         answerCheck = false
     }
 
-    answerCheck === true ? renderCorrectAnswer() : renderWrongAnswer() ;
+    if (answerCheck === false) {
+      $('.js-input').append(wrongAnswerFeedback(chosenAnswer, correctAnswer));
+      renderNextQuestionButton();
+      questionNumber += 1
+    } else if (answerCheck === true) {
+        $('.js-input').append(rightAnswerFeedback());
+        score += 10
+        questionNumber += 1
 
-
-
-    
+        renderNextQuestionButton();
+    }  
   });
-  console.log(`handleSubmit ready`);
-
 }
 
-function renderCorrectAnswer() {
-  console.log("answer is correct");
+function renderNextQuestionButton() {
+  $('button').replaceWith(`<button class="js-render-question" type="button">Next Question</button>`);
 }
 
-function renderWrongAnswer() {
-  console.log("answer is wrong");
+// this creates feedback for wrong answer
+function wrongAnswerFeedback(chosen, correct) {
+  return `<img src="photos/luke_skywalker_screaming_no.gif">
+  <p>You said the answer was ${chosen} when it was actually
+  ${correct}</p>`;
 }
 
-// function answerSelected() {
-//   $('body').on('submit', '.js-form', event => {
-//     event.preventDefault();
-//     if ($('input:checked').val() !== "on") {
-//       alert("Please select an answer");
-//       return false;
-//     } else {return true;}
-//   }
-// }
-
-function renderFeedback() {
-  // this should tell the user if they got the answer right and update .quiz-info
-  // if an answer has been selected, check if the answer is correct
-  if (answerSelected = true) {
-    checkAnswer()
-  }
-
-  console.log(`renderFeedback ready`);
+// this stores feedback for right answer
+function rightAnswerFeedback() {
+  return `Nice job kid, don't get cocky!`
 }
-
-function checkAnswer() {
-  let selected = $('input:checked')
-}
-
 
 function handleReset() {
   // this should restart quiz to question 1 and reset .quiz-info
