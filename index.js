@@ -132,32 +132,38 @@ function handleSubmit() {
 
     if (answerCheck === false) {
       $('.js-input').replaceWith(wrongAnswerFeedback(chosenAnswer, correctAnswer));
-      renderNextQuestionButton();
       questionNumber += 1
     } else if (answerCheck === true) {
-        $('.js-input').append(rightAnswerFeedback());
+        $('.js-input').replaceWith(rightAnswerFeedback());
         score += 10
         questionNumber += 1
+        
+    }
 
-        renderNextQuestionButton();
-    }  
+    renderNextQuestionButton(questionNumber, DATA.length);  
   });
 }
 
-function renderNextQuestionButton() {
-  $('button').replaceWith(`<button class="js-render-question" type="button">Next Question</button>`);
+// this decides what button will be desplayed after you check your answer
+function renderNextQuestionButton(question, length) {
+  if (question >= length) {
+    $('button').replaceWith(`<button class="js-render-result" type="button">Results</button>`);
+  } else {
+    $('button').replaceWith(`<button class="js-render-question" type="button">Next Question</button>`);
+  } 
 }
 
 // this creates feedback for wrong answer
 function wrongAnswerFeedback(chosen, correct) {
-  return `<img src="photos/luke_skywalker_screaming_no.gif">
+  return `<img alt="luke skywalker screaming 'NO!'" src="photos/luke_skywalker_screaming_no.gif">
   <p>You said the answer was "${chosen}" when it was actually
   "${correct}"</p>`;
 }
 
 // this stores feedback for right answer
 function rightAnswerFeedback() {
-  return `Nice job kid, don't get cocky!`
+  return `<img alt="Han Solo telling Luke not to get cocky" src="photos/hanSolo.gif">
+  <p>You got one!</p>`;
 }
 
 // this will create our score and question number
@@ -166,13 +172,52 @@ function renderQuizInfo(question, amount, score) {
   <p class="score">Score: ${score}</p></div>`);
 }
 
-function quizResults() {
-  // this will take you to a page that shows your score and a photo
-  // also gives you a button to re-take the quiz
+function renderResultPhoto(score) {
+  // this will decide what photo and text renders to the results page
+  if (score >= 100) {
+    return `<p class="results-text">Your score was ${score}, you are the Jedi Grand Master himself!</p>
+    <img alt="jedi master yoda turning on his lightsaber" src="photos/badassYoda.gif">`
+  } else if (score >= 70) {
+    return `<p class="results-text">Your score was ${score}, you are a skilled Jedi</p>
+    <img alt="Jedi Luke Skywalker holding his lightsaber" src="photos/badassLuke2.gif">`
+  } else if (score >= 50) {
+    return `<p class="results-text">Your score was ${score}, you have a lot to learn</p>
+    <img alt="Luke Skywalker practicing with his lightsaber" src="photos/lukePracticing.gif">`
+  } else if (score >= 20) {
+    return `<p class="results-text">Your score was ${score}, you are barely a Padawan</p>
+    <img alt="Luke Skywalker holding his lightsaber for the first time" src="photos/lukesFirstLightsaber.gif">`
+  } else {
+    return `<p class="results-text">Your score was ${score}, you are Jar Jar Binks</p>
+    <img alt="Jar Jar Binks giving a thumbs up" src="photos/jarjarThumbsUp.gif">`
+  }
+}
+
+  
+  // <section class="app-container js-app">
+  //       <div class="quiz-info"></div>
+  //       <div class="form-container js-form">
+  //         <h2>Padawan to Jedi Master<br>How well do you know the galaxy far, far away?</h2>
+  //         <button class='js-render-question' role="button">Prove it..</button>
+  //       </div>
+  //     </section>
+
+function handleResultsButton() {
+  $('.js-app').on('click', 'button.js-render-result', function() {
+    console.log("handleResultsButton ran")
+    $('.js-form').replaceWith(`${renderResultPhoto(score)}
+    <button class='js-reset-app' role="button">Try Again</button>`
+    )})
 }
 
 function handleReset() {
   // this should restart quiz to question 1 and reset .quiz-info
+  $('.js-app').on('click', 'button.js-reset-app', function() {
+    questionNumber = 0
+    score = 0
+    $('.js-app').replaceWith(`<div class="quiz-info"></div><div class="form-container js-form">
+    ${renderNewQuestion(DATA[questionNumber])}</div>`)
+    renderQuizInfo(questionNumber, DATA.length, score);
+  })
   console.log(`handleResetButtonClick ready`);
 }
 
@@ -180,6 +225,7 @@ function handleReset() {
 function startQuizApp() {
   handleNewQuestion();
   handleSubmit();
+  handleResultsButton()
   handleReset();
 
 }
