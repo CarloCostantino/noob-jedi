@@ -82,97 +82,103 @@ const DATA = [{
   }]
   
 let questionNumber = 0
-let score = 0
+let scoreCounter = 0
 
-function handleNewQuestion() {
+function handleNextQuestion() {
   // this will render the current question to the DOM
   $('.js-app').on('click', '.js-render-question', function() {
-    $('div.js-form').replaceWith(renderNewQuestion(DATA[questionNumber]))
-    renderQuizInfo(questionNumber, DATA.length, score);
+    renderNewQuestion(DATA[questionNumber]);
+    renderQuestionInfo(questionNumber, DATA.length);
+    renderScoreInfo(scoreCounter);
+    renderOptions(DATA[questionNumber]);
+    $('.js-quiz-info').show();
+    $('.js-form').show();
+    $('.js-start-page').hide();
+    $('.js-feedback').hide();
   }) 
 }
 
-// this joins containers, question, answers, and submit button
 function renderNewQuestion(questionObj) {
-  const question = renderQuestionHTML(questionObj);
-  const answers = renderOptionsHTML(questionObj);
-  return `<div class="form-container js-form"><form>${question}
-    <div class="input-container js-input">${answers}</div>
-    <button type="submit">Check Answer</button></form></div>`
+  $('.js-question-text').text(questionObj.question)
 }
 
-// this creates the HTML for the form question
-function renderQuestionHTML(questionObj) {
-  return `<legend>${questionObj.question}</legend>`
+function renderQuestionInfo(question, amount) {
+  $('.js-question-number').text(`Question: ${question + 1} of ${amount}`);
 }
 
-// this creates the HTML for the form options
-function renderOptionsHTML(questionObj) {
-  return questionObj.options.map((option, index) => 
-    `<input type="radio" id="answer-${index}" value="${option}" name="answer">
-    <label for="answer-${index}">${option}</label>`
-  ).join('')
+function renderScoreInfo(score) {
+  $('.js-score').text(`Score: ${score}`);
+}
+
+function renderOptions(questionObj) {
+  $('.js-input').html(questionObj.options.map((option, index) => 
+    `<div class="input-option"><input type="radio" id="answer-${index}" value="${option}" name="answer">
+    <label for="answer-${index}">${option}</label></div>`
+  ).join(''))
 }
 
 // this validates that an answer was selected and checks correctness then gives feedback
 function handleSubmit() {
-  $('body').on('submit', '.js-form', event => {
+  $('.js-submit-button').click(function(event) {
     event.preventDefault();
     const chosenAnswer = $('input:checked').val()
     const correctAnswer = DATA[questionNumber].answer
     let answerCheck = ''
-    
+
+    $('.js-start-page').hide();
+    $('.js-feedback-photo').html('');
+    $('.js-feedback-text').html('');
+
     if ($('input:checked').val() === undefined ) {
       alert("Please select an answer")
     } else if (chosenAnswer === correctAnswer) {
+        $('.js-form').hide();
+        $('.js-feedback').show();
         answerCheck = true
     } else if (chosenAnswer !== correctAnswer) {
+        $('.js-form').hide();
+        $('.js-feedback').show();
         answerCheck = false
     }
 
-    if (answerCheck === false) {
-      $('.js-input').replaceWith(wrongAnswerFeedback(chosenAnswer, correctAnswer));
-      questionNumber += 1
-    } else if (answerCheck === true) {
-        $('.js-input').replaceWith(rightAnswerFeedback());
-        score += 10
-        questionNumber += 1
-        
-    }
 
-    renderNextQuestionButton(questionNumber, DATA.length);  
+
+      if (answerCheck === false) {
+        $('.js-feedback-photo').html(wrongAnswerPhoto());
+        $('.js-feedback-text').text(wrongAnswerText(chosenAnswer, correctAnswer))
+        questionNumber += 1
+      } else if (answerCheck === true) {
+          $('.js-feedback-photo').html(rightAnswerPhoto());
+          $('.js-feedback-text').text(rightAnswerText());
+          scoreCounter += 10
+          questionNumber += 1
+          renderScoreInfo(scoreCounter);
+      }
+    renderResultsButton(questionNumber, DATA.length);
   });
 }
 
-// this decides what button will be desplayed after you check your answer
-function renderNextQuestionButton(question, length) {
-  if (question >= length) {
-    $('button').replaceWith(`<button class="js-render-result" type="button">Results</button>`);
-  } else {
-    $('button').replaceWith(`<button class="js-render-question" type="button">Next Question</button>`);
-  } 
+
+
+function wrongAnswerPhoto() {
+  return `<img alt="luke skywalker screaming 'NO!'" src="photos/luke_skywalker_screaming_no.gif">`
 }
 
-// this creates feedback for wrong answer
-function wrongAnswerFeedback(chosen, correct) {
-  return `<img alt="luke skywalker screaming 'NO!'" src="photos/luke_skywalker_screaming_no.gif">
-  <p>You said the answer was "${chosen}" when it was actually
-  "${correct}"</p>`;
+function rightAnswerPhoto() {
+  return `<img alt="Han Solo telling Luke not to get cocky" src="photos/hanSolo.gif">`
 }
 
-// this stores feedback for right answer
-function rightAnswerFeedback() {
-  return `<img alt="Han Solo telling Luke not to get cocky" src="photos/hanSolo.gif">
-  <p>You got one!</p>`;
+function wrongAnswerText(chosen, correct) {
+  return `You said the answer was "${chosen}" when it was actually
+  "${correct}"`;
 }
 
-// this will create our score and question number
-function renderQuizInfo(question, amount, score) {
-  $('.quiz-info').replaceWith(`<div class="quiz-info"><p class="question-number">Question: ${question + 1} of ${amount}</p>
-  <p class="score">Score: ${score}</p></div>`);
+function rightAnswerText() {
+  return `You got one!`;
 }
 
-function renderResultPhoto(score) {
+
+function renderResults(score) {
   // this will decide what photo and text renders to the results page
   if (score >= 100) {
     return `<p class="results-text">Your score was ${score}, you are the Jedi Grand Master himself!</p>
@@ -192,40 +198,40 @@ function renderResultPhoto(score) {
   }
 }
 
-  
-  // <section class="app-container js-app">
-  //       <div class="quiz-info"></div>
-  //       <div class="form-container js-form">
-  //         <h2>Padawan to Jedi Master<br>How well do you know the galaxy far, far away?</h2>
-  //         <button class='js-render-question' role="button">Prove it..</button>
-  //       </div>
-  //     </section>
+function handleResults() {
+  $('div.js-feedback').on('click', '.js-render-results', function() {
+    $('.js-feedback').hide();
+    $('.js-results').show();
+    $('.js-results-feedback').html(`${renderResults(scoreCounter)}`)
+  })
+}
 
-function handleResultsButton() {
-  $('.js-app').on('click', 'button.js-render-result', function() {
-    console.log("handleResultsButton ran")
-    $('.js-form').replaceWith(`${renderResultPhoto(score)}
-    <button class='js-reset-app' role="button">Try Again</button>`
-    )})
+function renderResultsButton(question, length) {
+  if (question >= length) {
+    $('.js-render-question').hide();
+    $('.js-render-results').show();
+  }
 }
 
 function handleReset() {
   // this should restart quiz to question 1 and reset .quiz-info
-  $('.js-app').on('click', 'button.js-reset-app', function() {
+  $('.js-app').on('click', '.js-reset-app', function() {
+    $('.js-results').hide();
+    $('.js-quiz-info').hide();
+    $('.js-start-page').show();
+    $('.js-render-question').show();
+    $('.js-render-results').hide();
+
     questionNumber = 0
-    score = 0
-    $('.js-app').replaceWith(`<div class="quiz-info"></div><div class="form-container js-form">
-    ${renderNewQuestion(DATA[questionNumber])}</div>`)
-    renderQuizInfo(questionNumber, DATA.length, score);
+    scoreCounter = 0
   })
-  console.log(`handleResetButtonClick ready`);
 }
 
 // this will hold all the other functions and be called at the end of the js to ready the app
 function startQuizApp() {
-  handleNewQuestion();
+  handleNextQuestion();
   handleSubmit();
-  handleResultsButton()
+  handleResults()
   handleReset();
 
 }

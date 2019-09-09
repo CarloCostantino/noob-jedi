@@ -34,3 +34,7 @@ body {
   flex-direction: column;
 }
 
+.results, .feedback, .form, .quiz-info, .js-render-results {
+  display: none;
+}
+

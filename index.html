@@ -15,10 +15,27 @@
     </header>
     <main role="main">
       <section class="app-container js-app">
-        <div class="quiz-info"></div>
-        <div class="form-container js-form">
-          <h2>Padawan to Jedi Master<br>How well do you know the galaxy far, far away?</h2>
-          <button class='js-render-question' role="button">Prove it..</button>
+        <div class="quiz-info js-quiz-info"><p class="js-question-number"></p>
+          <p class="js-score"></p></div>
+        <div class="form-container js-form-container">
+          <form class="form js-form">
+            <legend class="question-text js-question-text"></legend>
+            <div class="input-container js-input"></div>
+            <button class='js-submit-button' role="submit">Check answer</button>
+          </form>
+          <div class="feedback js-feedback">
+            <div class="js-feedback-photo"></div>
+            <p class="js-feedback-text"></p>
+            <button class='js-render-question' roll='button'>Next question</button>
+            <button class="js-render-results" type="button">Results</button>
+          </div> 
+          <div class="results js-results">
+            <div class='js-results-feedback'></div>
+            <button class='js-reset-app' role="button">Try Again</button></div>
+          <div class="start-page js-start-page">
+            <h2>Padawan or Jedi Master<br>How well do you know the galaxy far, far away?</h2>
+            <button class='js-render-question' role="button">Prove it..</button>
+          </div>
         </div>
       </section>
     </main>
