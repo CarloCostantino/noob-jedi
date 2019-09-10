@@ -7,24 +7,43 @@
     <title>Star Wars Quiz</title>
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&display=swap">
-    <link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
     <header class="header" role="banner">
       <h1>A Star Wars Quiz</h1>
     </header>
     <main role="main">
-      <section class="app-container">
-        <div class="quiz-info">
-          <p class="question-number">Question 1 of 10</p>
-          <p class="score">Score: 100</p>
-        </div>
-        <div class="form-container">
-          <h2>Padawan to Jedi Master<br>How well do you know the galaxy far, far away?</h2>
-          <button role="button">Prove it..</button>
+      <section class="app-container js-app">
+        <div class="quiz-info js-quiz-info">
+          <p class="question-number js-question-number"></p>
+          <p class="score js-score"></p></div>
+        <div class="form-container js-form-container">
+          <form class="form js-form">
+            <legend class="question-text js-question-text"></legend>
+            <div class="input-container js-input"></div>
+            <button class='js-submit-button' role="submit">Check answer</button>
+          </form>
+          <div class="feedback js-feedback">
+            <p class="feedback-text js-feedback-text"></p>
+            <div class="feedback-photo js-feedback-photo"></div>
+            <button class='js-render-question' roll='button'>Next question</button>
+            <button class="js-render-results" type="button">Results</button>
+          </div> 
+          <div class="results js-results">
+            <div class='js-results-feedback'></div>
+            <button class='js-reset-app' role="button">Try Again</button></div>
+          <div class="start-page js-start-page">
+            <h2 class='intro-text'>Padawan or Jedi Master?<br>How well do you know the galaxy far, far away?</h2>
+            <button class='js-render-question' role="button">Prove it..</button>
+          </div>
         </div>
       </section>
     </main>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+      crossorigin="anonymous"></script>
     <script src="index.js"></script>
   </body>
 </html>
