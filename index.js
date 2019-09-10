@@ -9,11 +9,11 @@ const DATA = [{
     answer: 'Padmé Amidala'
   },
   {
-    question: `What is the name of Bubba Fett's ship?`,
-    options: ['Slave 1',
-    'Rebel Blockade Runner', 
+    question: `What is the name of Buba Fett's ship?`,
+    options: ['Rebel Blockade Runner', 
     'Naboo N-1 Starfighter', 
-    'R60 T-wing interceptor'],
+    'Slave 1',
+    'R60 T-wing Interceptor'],
     answer: 'Slave 1'
   },
   {
@@ -34,7 +34,7 @@ const DATA = [{
   },
   {
     question: 'What did Darth Vader say to Luke after being accused of killing his father?',
-    options: ['No Luke, I am your father',
+    options: ['Luke, I am your father',
     "Who's your daddy? I'm your daddy",
     'No, I am your father',
     'I am your father'],
@@ -49,12 +49,12 @@ const DATA = [{
     answer: 'Blue'
   },
   {
-    question: 'What is the home planet of the Wookies?',
-    options: ['Endor',
-    'Alderaan',
+    question: 'What is the home planet of the Ewoks?',
+    options: ['Alderaan',
+    'Endor',
     'Kashyyyk',
     'Tatooine'],
-    answer: 'Kashyyyk'
+    answer: 'Endor'
   },
   {
     question: 'What did Luke see in the cave on Dagobah?',
