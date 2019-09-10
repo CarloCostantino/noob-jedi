@@ -196,7 +196,7 @@ function renderResults(score) {
     <img class='gif' alt="Luke Skywalker holding his lightsaber for the first time" src="photos/lukesFirstLightsaber.gif">`
   } else {
     return `<p class="results-text">Your score was ${score}, you are Jar Jar Binks</p>
-    <img class='gif' alt="Jar Jar Binks giving a thumbs up" src="photos/jarjarThumbsUp.gif">`
+    <img class='gif' alt="Jar Jar Binks giving a thumbs up" src="photos/jarJarThumbsUp.gif">`
   }
 }
 
