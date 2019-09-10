@@ -27,10 +27,15 @@ body {
 }
 
 h1 {
-  padding: 10px;
+  padding: 20px 30px;
   font-weight: bolder;
   min-width: 340px;
+  background-color: #fff;
+  box-shadow: 0px 7px 7px grey;
+  border-radius: 7px;
+  margin-bottom: 10px;
 }
+
 
 h2 {
   font-size: 20px;
@@ -50,14 +55,15 @@ legend {
   border: 1px solid #212121;
   border-radius: 7px;
   box-shadow: 0px 5px 5px grey;
+  margin-bottom: 10px;
 }
 
 .input-container {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .input-option {
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 label {
   display: flex;
