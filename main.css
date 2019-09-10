@@ -168,6 +168,10 @@ button:active {
     font-size: 40px;
   }
 
+  h2 {
+    font-size: 30px;
+  }
+
 }
 
 @media only screen and (max-width: 600px) {
