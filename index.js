@@ -41,7 +41,7 @@ const DATA = [{
     answer: 'No, I am your father'
   },
   {
-    question: 'What color is Lukes light saber',
+    question: 'What color is Lukes light saber?',
     options: ['Green',
     'Purple',
     'White',
@@ -112,12 +112,19 @@ function renderScoreInfo(score) {
 
 function renderOptions(questionObj) {
   $('.js-input').html(questionObj.options.map((option, index) => 
-    `<div class="input-option"><input type="radio" id="answer-${index}" value="${option}" name="answer">
+    `<div class="input-option"><input class="checkbox" type="radio" id="answer-${index}" value="${option}" name="answer">
     <label for="answer-${index}">${option}</label></div>`
   ).join(''))
 }
 
-// this validates that an answer was selected and checks correctness then gives feedback
+function handleSelectOption() {
+  $('.js-input').on('click', 'label', function() {
+    $('.selected').removeClass('selected');
+    $(this).addClass('selected');
+    console.log('yes');
+  });
+}
+
 function handleSubmit() {
   $('.js-submit-button').click(function(event) {
     event.preventDefault();
@@ -141,8 +148,6 @@ function handleSubmit() {
         answerCheck = false
     }
 
-
-
       if (answerCheck === false) {
         $('.js-feedback-photo').html(wrongAnswerPhoto());
         $('.js-feedback-text').text(wrongAnswerText(chosenAnswer, correctAnswer))
@@ -158,14 +163,12 @@ function handleSubmit() {
   });
 }
 
-
-
 function wrongAnswerPhoto() {
-  return `<img alt="luke skywalker screaming 'NO!'" src="photos/luke_skywalker_screaming_no.gif">`
+  return `<img class='gif' alt="luke skywalker screaming 'NO!'" src="photos/luke_skywalker_screaming_no.gif">`
 }
 
 function rightAnswerPhoto() {
-  return `<img alt="Han Solo telling Luke not to get cocky" src="photos/hanSolo.gif">`
+  return `<img class='gif' alt="Han Solo telling Luke not to get cocky" src="photos/hanSolo.gif">`
 }
 
 function wrongAnswerText(chosen, correct) {
@@ -179,22 +182,21 @@ function rightAnswerText() {
 
 
 function renderResults(score) {
-  // this will decide what photo and text renders to the results page
   if (score >= 100) {
     return `<p class="results-text">Your score was ${score}, you are the Jedi Grand Master himself!</p>
-    <img alt="jedi master yoda turning on his lightsaber" src="photos/badassYoda.gif">`
+    <img class='gif' alt="jedi master yoda turning on his lightsaber" src="photos/badassYoda.gif">`
   } else if (score >= 70) {
     return `<p class="results-text">Your score was ${score}, you are a skilled Jedi</p>
-    <img alt="Jedi Luke Skywalker holding his lightsaber" src="photos/badassLuke2.gif">`
+    <img class='gif' alt="Jedi Luke Skywalker holding his lightsaber" src="photos/badassLuke2.gif">`
   } else if (score >= 50) {
     return `<p class="results-text">Your score was ${score}, you have a lot to learn</p>
-    <img alt="Luke Skywalker practicing with his lightsaber" src="photos/lukePracticing.gif">`
+    <img class='gif' alt="Luke Skywalker practicing with his lightsaber" src="photos/lukePracticing.gif">`
   } else if (score >= 20) {
     return `<p class="results-text">Your score was ${score}, you are barely a Padawan</p>
-    <img alt="Luke Skywalker holding his lightsaber for the first time" src="photos/lukesFirstLightsaber.gif">`
+    <img class='gif' alt="Luke Skywalker holding his lightsaber for the first time" src="photos/lukesFirstLightsaber.gif">`
   } else {
     return `<p class="results-text">Your score was ${score}, you are Jar Jar Binks</p>
-    <img alt="Jar Jar Binks giving a thumbs up" src="photos/jarjarThumbsUp.gif">`
+    <img class='gif' alt="Jar Jar Binks giving a thumbs up" src="photos/jarjarThumbsUp.gif">`
   }
 }
 
@@ -214,27 +216,24 @@ function renderResultsButton(question, length) {
 }
 
 function handleReset() {
-  // this should restart quiz to question 1 and reset .quiz-info
   $('.js-app').on('click', '.js-reset-app', function() {
     $('.js-results').hide();
     $('.js-quiz-info').hide();
+    $('.js-render-results').hide();
     $('.js-start-page').show();
     $('.js-render-question').show();
-    $('.js-render-results').hide();
-
     questionNumber = 0
     scoreCounter = 0
   })
 }
 
-// this will hold all the other functions and be called at the end of the js to ready the app
 function startQuizApp() {
   handleNextQuestion();
+  handleSelectOption();
   handleSubmit();
   handleResults()
   handleReset();
 
 }
 
-// when the page loads, this will call "handleQuizApp"
 $(startQuizApp);
