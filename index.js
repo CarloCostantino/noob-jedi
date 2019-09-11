@@ -9,12 +9,12 @@ const DATA = [{
     answer: 'Padmé Amidala'
   },
   {
-    question: `What is the name of Buba Fett's ship?`,
+    question: `What is the name of Boba Fett's ship?`,
     options: ['Rebel Blockade Runner', 
     'Naboo N-1 Starfighter', 
-    'Slave 1',
+    'Slave II',
     'R60 T-wing Interceptor'],
-    answer: 'Slave 1'
+    answer: 'Slave II'
   },
   {
     question: 'How did Han, Luke, Chewy and Leia escape the trash compacter on the Death Star?',
@@ -41,12 +41,12 @@ const DATA = [{
     answer: 'No, I am your father'
   },
   {
-    question: 'What color is Lukes light saber?',
-    options: ['Green',
-    'Purple',
-    'White',
-    'Blue'],
-    answer: 'Blue'
+    question: "What happend to Leia's home planet?",
+    options: ['Invaded by the Empires forces',
+    'Destroyed by the Death Star super laser',
+    'Turned into a base of opperations for the Rebels',
+    'Got totally trashed by a planet wide rager'],
+    answer: 'Destroyed by the Death Star super laser'
   },
   {
     question: 'What is the home planet of the Ewoks?',
