@@ -120,7 +120,7 @@ img {
 button {
   border: 1px solid #212121;
   padding: 10px 50px;
-  margin-top: 30px;
+  margin: 30px auto 0;
   background-color: #A26622;
   color: black;
   border-radius: 7px;
