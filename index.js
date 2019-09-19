@@ -121,7 +121,6 @@ function handleSelectOption() {
   $('.js-input').on('click', 'label', function() {
     $('.selected').removeClass('selected');
     $(this).addClass('selected');
-    console.log('yes');
   });
 }
 
